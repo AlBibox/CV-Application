@@ -10,13 +10,16 @@ class SingleEducation extends Component {
             schoolName: "",
             initialDate: "",
             endingDate: "",
+            endingDateNotYetFinished: false,
             description: "",
 
             studyTitleOld: "",
             schoolNameOld: "",
             initialDateOld: "",
             endingDateOld: "",
+            endingDateNotYetFinishedOld: "",
             descriptionOld: "",
+            
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -24,6 +27,7 @@ class SingleEducation extends Component {
         this.handleUndo = this.handleUndo.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSubmitforNewElement = this.handleSubmitforNewElement.bind(this);
+        this.handleCheckbox = this.handleCheckbox.bind(this);
     }
 
     componentDidMount() {
@@ -34,6 +38,7 @@ class SingleEducation extends Component {
             schoolNameOld: this.state.schoolName,
             initialDateOld: this.state.initialDate,
             endingDateOld: this.state.endingDate,
+            endingDateNotYetFinishedOld: this.state.endingDateNotYetFinished,
             descriptionOld: this.state.description,
         })
     }
@@ -47,14 +52,15 @@ class SingleEducation extends Component {
 
     //METHOD FOR SUBMITTING OLD ELEMENTS
     handleSubmit(){
-        if (!this.state.studyTitle) return false;
-
+        const { studyTitle, schoolName, initialDate, endingDate, endingDateNotYetFinished, description } = this.state;
+        
         this.setState({
-            studyTitleOld: this.state.studyTitle,
-            schoolNameOld: this.state.schoolName,
-            initialDateOld: this.state.initialDate,
-            endingDateOld: this.state.endingDate,
-            descriptionOld: this.state.description,
+            studyTitleOld: studyTitle,
+            schoolNameOld: schoolName,
+            initialDateOld: initialDate,
+            endingDateOld: endingDate,
+            endingDateNotYetFinishedOld: endingDateNotYetFinished,
+            descriptionOld: description,
         })
         this.toggleEditMode();        
     }
@@ -62,15 +68,16 @@ class SingleEducation extends Component {
 
     //METHOD FOR SUBMITTING NEW ELEMENT
     handleSubmitforNewElement(){
-        if (!this.state.studyTitle) return false;
-
+        const {studyTitle, schoolName, initialDate, endingDate, endingDateNotYetFinished, description} = this.state;
+        
         this.setState({
             isNew: false,
-            studyTitleOld: this.state.studyTitle,
-            schoolNameOld: this.state.schoolName,
-            initialDateOld: this.state.initialDate,
-            endingDateOld: this.state.endingDate,
-            descriptionOld: this.state.description,
+            studyTitleOld: studyTitle,
+            schoolNameOld: schoolName,
+            initialDateOld: initialDate,
+            endingDateOld: endingDate,
+            endingDateNotYetFinishedOld: endingDateNotYetFinished,
+            descriptionOld: description,
         })
         this.toggleEditMode();
         this.props.addingMode();
@@ -86,103 +93,139 @@ class SingleEducation extends Component {
         })
     }
 
+    handleCheckbox(e) {
+        this.setState({
+            endingDateNotYetFinished: e.target.checked,
+        })
+    }
+
 
     handleUndo() {
-        if (!this.state.studyTitle) return false;
-        
         this.setState({
             studyTitle: this.state.studyTitleOld,
-            schoolName: this.state.shoolNameOld,
+            schoolName: this.state.schoolNameOld,
             initialDate: this.state.initialDateOld,
             endingDate: this.state.endingDateOld,
+            endingDateNotYetFinished: this.state.endingDateNotYetFinishedOld,
             description: this.state.descriptionOld,
         });
-        this.toggleEditMode();
-        
-        
+        this.toggleEditMode(); 
     }
+
+   
     
     render() {
-        const { studyTitle, schoolName, initialDate, endingDate, description, editMode, isNew } = this.state;
+        const { studyTitle, schoolName, initialDate, endingDate, endingDateNotYetFinished, description, editMode, isNew } = this.state;
+        let validator = (!studyTitle || !schoolName || !initialDate || (!endingDate && !endingDateNotYetFinished)) ? true : false;
 
         if(!editMode){
             return (
                 <div className="singleEducation">
-                    <h4>Title of study: {studyTitle}</h4>
-                    <h4>School name: {schoolName}</h4>
-                    <div>
-                        <h4>From: {initialDate}</h4>
-                        <h4>Till: {endingDate}</h4>
+                    <div className="dataContainer">
+                        <h4 className="date">{initialDate}  /  {!endingDateNotYetFinished ? endingDate : "In progress"}</h4>
+                        <h4><b>{studyTitle}</b></h4>
+                        <h4><b>{schoolName}</b></h4>
+                        <h4 className="otherData">{description}</h4>
                     </div>
-                    <h4>Description: {description}</h4>        
-                    <div className="buttons">
+                           
+                    <div className="singleButtonsContainer">
                         <button onClick={this.toggleEditMode}>EDIT</button>
-                        <button>DELETE</button>
+                        <button onClick={() => this.props.removeEl(this)}>DELETE</button>
                     </div>   
                 </div>
             )
         } else {
             return (
                 <div className="singleEducationEditable">
-                    <div>
-                        <label>Title of study:</label>
-                        <input
-                            placeholder="* Enter the title of study"
-                            type="text"
-                            name="studyTitle"
-                            value={studyTitle}
-                            onChange={this.handleChange} 
-                        />
+
+                    <div className="doubleFieldContainer">
+                        <div className="fieldWrapper">
+                            <label>Title of study</label>
+                            <input
+                                placeholder="* Enter the title of study"
+                                type="text"
+                                name="studyTitle"
+                                value={studyTitle}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                        <div className="fieldWrapper">
+                            <label>School name</label>
+                            <input
+                                placeholder="* Enter the school name"
+                                type="text"
+                                name="schoolName"
+                                value={schoolName}
+                                onChange={this.handleChange}
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <label>School name:</label>
-                        <input
-                            placeholder="* Enter the school name"
-                            type="text"
-                            name="schoolName"
-                            value={schoolName}
-                            onChange={this.handleChange}
-                        />
+
+                    
+
+                    <div className="singleFieldContainer">
+                        <div className="fieldWrapper">
+                            <label>Starting date</label>
+                            <input
+                                placeholder="* Enter when you started this study"
+                                type="date"
+                                name="initialDate"
+                                value={initialDate}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                        
+                        
                     </div>
-                    <div>
-                        <label>From:</label>
-                        <input
-                            placeholder="* Enter when you started this study"
-                            type="date"
-                            name="initialDate"
-                            value={initialDate}
-                            onChange={this.handleChange}
-                        />
-                        <label>Till:</label>
-                        <input
-                            placeholder="* Enter when you finished this study"
-                            type="date"
-                            name="endingDate"
-                            value={endingDate}
-                            onChange={this.handleChange}  
-                        />
+                    <div className="doubleFieldContainer">
+                        
+                        <div className="fieldWrapper">
+                            <label>Ending date</label>
+                            <input
+                                placeholder="* Enter when you finished this study"
+                                type="date"
+                                name="endingDate"
+                                disabled={endingDateNotYetFinished}
+                                value={endingDate}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                        <div className="fieldWrapperCheckbox">
+                            <label>In progress</label>
+                            <input
+                                type="checkbox"
+                                checked={endingDateNotYetFinished}
+                                onChange={this.handleCheckbox}
+                            />
+                            
+                        </div>
                     </div>
-                    <div>
-                        <label>Description:</label>
-                        <textarea
-                            placeholder="* Describe your experience"
-                            name="description"
-                            value={description}
-                            onChange={this.handleChange}
-                        />
-                    </div>    
-                        {isNew //CONDITION FOR THE RENDER OF THE BUTTONS (different for new added and old element)
-                            ?  
-                                <div>
-                                    <button onClick={this.handleSubmitforNewElement}>SUBMIT</button>
-                                    <button>DELETE</button>
-                                </div> 
-                            :
-                                <div>
-                                    <button onClick={this.handleSubmit}>SUBMIT</button>
-                                    <button onClick={this.handleUndo}>UNDO</button>
-                                </div>  
-                        }                              
+
+                    <div className="singleFieldContainer">
+                        <div className="fieldWrapper">
+                            <label>Description:</label>
+                            <textarea
+                                placeholder="* Describe your experience"
+                                name="description"
+                                rows="4"
+                                value={description}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                    </div>
+                       
+                    {isNew //CONDITION FOR THE RENDER OF THE BUTTONS (different for new added and old element)
+                        ?  
+                            <div className="buttonContainer">
+                                <button onClick={this.handleSubmitforNewElement} disabled={validator}>SUBMIT</button>                                   
+                                <button onClick={() => this.props.removeEl(this)}>UNDO</button>
+                            </div> 
+                        :
+                            <div className="buttonContainer">
+                                <button onClick={this.handleSubmit} disabled={validator}>SUBMIT</button>
+                                <button onClick={this.handleUndo}>UNDO</button>
+                            </div>  
+                    }                              
                 </div>
             )
         }  

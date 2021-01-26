@@ -8,7 +8,7 @@ class GeneralInfo extends Component {
             editMode: false,
             firstName: "Name",
             surname: "Surname",
-            jobTitle: "jobTitle",
+            jobTitle: "My specialization",
             phone: "333 9406438",
             email: "mail@gmail.com",
             position: "myPosition",
@@ -91,79 +91,98 @@ class GeneralInfo extends Component {
         if (!editMode) {
             return (
                 <div className="generalInfo">
-                    <h1>General info</h1>
-                    <h3>{firstName}</h3>
-                    <h3>{surname}</h3>
-                    <h4>Job title: {jobTitle}</h4>
-                    <h4>Phone: {phone}</h4>
-                    <h4>Email: {email}</h4>
-                    <h4>Position: {position}</h4>
-                    <button onClick={this.toggleEditMode}>EDIT</button>
+                    
+                    <div className="outputWrapper">
+                        <h3>{firstName} {surname}</h3>
+                        <h4>{jobTitle}</h4>
+                    </div>
+                    
+                    <div className="outputWrapper">
+                        <h5>{phone}</h5>
+                        <h5>{email}</h5>
+                        <h5>{position}</h5>
+                    </div>
+                    <div className="buttonContainer">
+                        <button onClick={this.toggleEditMode}>EDIT INFORMATION</button>
+                    </div>                  
                 </div>
             )
         } else {
             return (
-                <div>
-                    <h1>General info</h1>
-                    <div>
-                        <label>Name</label>
-                        <input 
-                            placeholder="* Enter your name" 
-                            type="text"
-                            name="firstName" 
-                            value={firstName} 
-                            onChange={this.handleChange} 
-                        />
-                        <label>Surname</label>
-                        <input 
-                            placeholder="* Enter your surname" 
-                            type="text"
-                            name="surname"
-                            value={surname}
-                            onChange={this.handleChange}
-                        />
+                <div className="generalInfoEditable">
+                    <div className="doubleFieldContainer">
+                        <div className="fieldWrapper">
+                            <label>Name</label>
+                            <input
+                                placeholder="* Enter your name"
+                                type="text"
+                                name="firstName"
+                                value={firstName}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                        <div className="fieldWrapper">
+                            <label>Surname</label>
+                            <input
+                                placeholder="* Enter your surname"
+                                type="text"
+                                name="surname"
+                                value={surname}
+                                onChange={this.handleChange}
+                            />
+                        </div>  
                     </div>
-                    <div>
-                        <label>Job Title</label>
-                        <input 
-                            placeholder="* Enter your job title" 
-                            type="text"
-                            name="jobTitle"
-                            value={jobTitle}
-                            onChange={this.handleChange}
-                        />
+                    <div className="singleFieldContainer">
+                        <div className="fieldWrapper">
+                            <label>Job Title</label>
+                            <input
+                                placeholder="* Enter your job title"
+                                type="text"
+                                name="jobTitle"
+                                value={jobTitle}
+                                onChange={this.handleChange}
+                            />
+                        </div>                      
                     </div>
-                    <div>
-                        <label>Phone number</label>
-                        <input 
-                            placeholder="* Enter your phone number" 
-                            type="text"
-                            name="phone"
-                            value={phone}
-                            onChange={this.handleChange}
-                        />
+                    <div className="doubleFieldContainer">
+                        <div className="fieldWrapper">
+                            <label>Phone number</label>
+                            <input
+                                placeholder="* Enter your phone number"
+                                type="text"
+                                name="phone"
+                                value={phone}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                        <div className="fieldWrapper">
+                            <label>Email</label>
+                            <input
+                                placeholder="* Enter your email"
+                                type="text"
+                                name="email"
+                                value={email}
+                                onChange={this.handleChange}
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <label>Email</label>
-                        <input 
-                            placeholder="* Enter your email" 
-                            type="text"
-                            name="email"
-                            value={email}
-                            onChange={this.handleChange}
-                        />
+
+                    <div className="singleFieldContainer">
+                        
+                        <div className="fieldWrapper">
+                            <label>Position</label>
+                            <input
+                                placeholder="* Enter your position"
+                                type="text"
+                                name="position"
+                                value={position}
+                                onChange={this.handleChange}
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <label>Position</label>
-                        <input 
-                            placeholder="* Enter your position" 
-                            type="text"
-                            name="position"
-                            value={position}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div>
+                    
+                                      
+                    <div className="buttonContainer">
                         <button onClick={this.handleSubmit}>SUBMIT</button>
                         <button onClick={this.handleUndo}>UNDO</button>
                     </div>
