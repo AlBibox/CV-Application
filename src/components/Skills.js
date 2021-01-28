@@ -45,17 +45,24 @@ class Skills extends Component {
     
     render() {
         return (
-            <div className="Skills" >
+            <div className="skills" >
                 <h2>SKILLS</h2>
-                {this.state.skillsList
-                    .map(item =>
-                        <SingleSkill
-                            key={item.key}
-                            addingMode={this.toggleAddingMode}
-                            removeEl={this.removeElement}
-                        />
-                    )}
-                {!this.state.addingMode && <button onClick={this.addNewElement}>ADD NEW SKILL</button>}
+                <div className="itemsContainer">
+                    {this.state.skillsList
+                        .map(item =>
+                            <SingleSkill
+                                key={item.key}
+                                addingMode={this.toggleAddingMode}
+                                removeEl={this.removeElement}
+                            />
+                        )}
+                </div>
+                
+                {!this.state.addingMode &&
+                    <div className="generalButtonContainer"> 
+                        <button onClick={this.addNewElement}>ADD NEW SKILL</button>
+                    </div>
+                }
             </div>
         )
     }

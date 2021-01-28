@@ -49,17 +49,16 @@ class SingleSkill extends Component {
         if (!editMode) {
             return (
                 <div className="singleSkill">
-                    <h4>{skillName}</h4>
-                    <div className="buttons">
-                        <button onClick={() => this.props.removeEl(this)}>DELETE</button>
+                    <h4 className="data">{skillName}</h4>
+                    <div className="deleteButton">
+                        <button onClick={() => this.props.removeEl(this)}>X</button>
                     </div>
                 </div>
             )
         } else {
             return (
                 <div className="singleSkillEditable">
-                    <div>
-                        <label>Skill Name:</label>
+                    <div className="fieldWrapper">
                         <input
                             placeholder="* Enter the skill name"
                             type="text"
@@ -68,9 +67,9 @@ class SingleSkill extends Component {
                             onChange={this.handleChange}
                         />
                     </div>                  
-                    <div>
+                    <div className="singleButtonsContainer">
                         <button onClick={this.handleSubmit} disabled={validator}>SUBMIT</button>
-                        <button onClick={() => this.props.removeEl(this)}>UNDO2</button>
+                        <button onClick={() => this.props.removeEl(this)}>UNDO</button>
                     </div>
                 </div>
             )

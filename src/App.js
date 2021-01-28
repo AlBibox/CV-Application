@@ -1,4 +1,3 @@
-import './styles/appStyle.scss';
 import GeneralInfo from './components/GeneralInfo';
 import Education from './components/Education';
 import JobExperience from './components/JobExperience';
@@ -12,8 +11,11 @@ const App = () => {
     <div className="app">
       <h1>EDITABLE CURRICULUM</h1>
       <GeneralInfo />
+      <hr/>
       <Education />
+      <hr />
       <JobExperience />
+      <hr />
       <Skills />
     </div>
   )

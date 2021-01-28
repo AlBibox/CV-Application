@@ -1,8 +1,76 @@
-
 $text: #1a1c1c;
 $buttonColor: #3333ff;
 $buttonText: #fff;
 $inputBackground: #e6e6ff;
+$singleSkillColor: #ccd9ff;
+$buttonDisabled: #bfbfbf;
+$separator: #ccccff;
+
+
+%formFieldStyling{
+    .singleFieldContainer, .doubleFieldContainer{
+        margin: 1rem 0;
+        display: flex;
+            
+        .fieldWrapper{
+            label{margin-bottom: 0.2rem}
+
+            input{
+                width: 24rem;
+                background-color: $inputBackground;
+                border-style: none;
+                margin-right: 4rem;
+            }
+
+            textarea{
+                width: 52rem;
+                background-color: $inputBackground;
+                border-style: none;
+                resize: none;                    
+            }
+        }
+
+        .fieldWrapperCheckbox{
+            display: flex;
+            flex-direction: column;
+                
+            label{margin-bottom: 0.2rem}
+                
+            input{
+                width: 1rem;
+                height: 1rem;
+                text-decoration: none;     
+            }
+        }
+    }
+}
+
+
+%formButtonsStyling{
+    .buttonContainer{
+        margin: 4rem 0 0.2rem 0;
+        button{margin-right: 1rem}
+    }
+}
+
+
+%singleListItemStyling{
+    margin: 1rem 0 2rem 0;
+    display: grid;
+    grid-template-columns: 32rem auto;
+    align-items: start;
+
+    .dataContainer{
+        .date{margin-bottom: 0.5rem}
+        .otherData{margin: 0.5rem 0}           
+    } 
+     
+    .singleButtonsContainer{
+        justify-self: end;
+        display: flex;
+        button{margin-left: 1rem}
+    }
+}
 
 
 *{
@@ -12,7 +80,13 @@ $inputBackground: #e6e6ff;
     box-sizing: border-box;
 }
 
-h1{color: $text; margin-bottom: 1rem;}
+h1{
+    color: $text; 
+    margin-bottom: 1rem
+}
+h2{
+   color: $text;  
+}
 
 h3, h4, h5{
     color: $text;
@@ -21,11 +95,15 @@ h3, h4, h5{
 
 label{
     font-weight: 700;
+    display: block;
+    color: $text;
 }
 
 input, textarea{
     font-size: 1em;
     padding: 0.5rem;
+    display: block;
+    color: $text;
 }
 
 button{
@@ -34,26 +112,37 @@ button{
     color: $buttonText;
     padding: 0.5rem 1rem;
     font-weight: 700;
+    cursor: pointer;
 }
+
+button:disabled{
+    background-color: $buttonDisabled;  
+}
+
+hr{
+    opacity: 0.4;
+    border: 1px solid $separator;
+}
+
+.app{margin: 1rem 4rem}
+
 
 //GENERAL INFO OUTPUT
 .generalInfo{
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin: 1.5rem 0;
+    margin: 1rem 0;
     
 
     .outputWrapper{
-        margin: 0.5rem 0;
+        margin-top: 0.5rem;
         h3{font-size: 2em}
         h4{font-size: 1.3em}
         h5{font-size: 1em}
     }
 
-    .buttonContainer{
-        margin: 1rem 0;
-    }  
+    .buttonContainer{margin: 4rem 0 0.2rem 0}  
 }
 
 //GENERAL INFO FORM
@@ -61,35 +150,11 @@ button{
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin: 1.5rem 0;
+    margin: 0.5rem 0 1rem 0;
 
-    label, input{
-        display: block;
-    }
 
-    .doubleFieldContainer, .singleFieldContainer{
-        margin: 1rem 0;
-        display: flex;
-        .fieldWrapper{
-            label{
-                margin-bottom: 0.2rem;
-            }
-            input{
-                width: 24rem;
-                background-color: $inputBackground;
-                border-style: none;
-                margin-right: 4rem;
-            }
-        }
-        
-    }
-
-    .buttonContainer{
-        margin: 1rem 0;
-        button{
-            margin-right: 1rem;
-        }
-    }   
+    @extend %formFieldStyling;
+    @extend %formButtonsStyling;
 }
 
 
@@ -99,91 +164,175 @@ button{
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin: 1.5rem 0;
+    margin: 0.5rem 0 1rem 0;
 
-    .generalButtonContainer{
-         margin: 1rem 0;
-    }
-    
+    .generalButtonContainer{margin: 4rem 0 0.2rem 0}
 
     .singleEducation{
-        margin: 1rem 0;
-        display: grid;
-        grid-template-columns: 32rem auto;
-        align-items: start;
-
-        .dataContainer{
-            .otherData{margin: 0.5rem 0}
-        } 
-     
-
-        .singleButtonsContainer{
-            justify-self: end;
-            display: flex;
-            button{
-                margin-left: 1rem;
-            }
-        }
+        @extend %singleListItemStyling;
     }
 
     .singleEducationEditable{
         display: flex;
         flex-direction: column;
         width: 100%;
-        margin: 1.5rem 0;
+        margin: 0.5rem 0 0 0;
 
-        label, input{
-            display: block;
+
+        @extend %formFieldStyling;
+        @extend %formButtonsStyling;       
+    }
+
+}
+
+//JOBS
+.jobsBox{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0.5rem 0 1rem 0;
+
+    .generalButtonContainer{margin: 4rem 0 0.2rem 0}
+
+    .singleJob{
+        @extend %singleListItemStyling;       
+    }
+
+    .singleJobEditable{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 0.5rem 0 0 0;
+
+       
+        @extend %formFieldStyling;
+        @extend %formButtonsStyling;   
+    }
+
+}
+
+.skills{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0.5rem 0 1rem 0;
+
+    .generalButtonContainer{margin: 4rem 0 0.2rem 0}
+
+    .itemsContainer{
+        margin: 1rem 0 0 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        
+        .singleSkill{
+            margin: 0 1rem 1rem 0;
+            display: flex;
+            align-items: flex-end;
+
+            .data{
+                padding: 0.4rem 1rem;
+                background-color: $singleSkillColor;
+            }
         }
 
-       .singleFieldContainer, .doubleFieldContainer{
-            margin: 1rem 0;
-            display: flex;
+        .singleSkillEditable{
+            display:flex;
+            align-items: flex-start;
+            input{padding: 0.3rem 0.5rem}
+
+            .singleButtonsContainer{
+                align-content: center;
+                display: flex;
+                button{margin-left: 0.5rem}
+            }
+        }
+    }  
+}
+
+
+//MEDIA QUERY GRANDI TABLET E PICCOLI TABLET LANDSCAPE
+@media (max-width: 1199px){
+    .app{margin: 1rem 1rem}
+
+    .generalButtonContainer{margin: 2rem 0 0.2rem 0 !important}
+    .buttonContainer{margin: 2rem 0 0.2rem 0}
+
+    %formButtonsStyling{
+        .buttonContainer{
+            margin: 1.5rem 0 0.5rem 0;
+        }
+    }
+
+    %formFieldStyling{
+        margin-bottom: 1rem;
+        .singleFieldContainer, .doubleFieldContainer{
             
             .fieldWrapper{
-                label{
-                    margin-bottom: 0.2rem;
-                }
                 input{
-                    width: 24rem;
-                    background-color: $inputBackground;
-                    border-style: none;
-                    margin-right: 4rem;
+                    width: 21rem;
+                    margin-right: 2rem;
                 }
 
-                textarea{
-                    width: 52rem;
-                    background-color: $inputBackground;
-                    border-style: none;
-                    resize: none;
-                     
-                }
-            }
-
-            .fieldWrapperCheckbox{
-                display: flex;
-                flex-direction: column;
-                
-
-                label{
-                    margin-bottom: 0.2rem;
-                }
-                input{
-                    width: 1rem;
-                    height: 1rem;
-                    text-decoration: none;     
-                }
-            }
-
+                textarea{width: 44rem}
+            }         
         }
+    }
+}
 
+//MEDIA QUERY PICCOLI TABLET PORTRAIT E SMARTPHONE MODALITA' LANDSCAPE
+@media (max-width: 768px){
+    html{font-size: 90%;}
+
+    
+
+    
+    %formFieldStyling{
+        .singleFieldContainer, .doubleFieldContainer{
+            margin: 0;
+            flex-direction: column;
+            
+            .fieldWrapper{
+                margin: 0.8rem 0;
+            
+                input{
+                    max-width: 100%;
+                    width: 100%;
+                    margin-right: 0;
+                }
+
+                textarea{max-width: 100%}
+            }
+
+            .fieldWrapperCheckbox{margin: 0.8rem 0}
+        }
+    }
+
+    %formButtonsStyling{
         .buttonContainer{
-            margin: 1rem 0;
+            button{margin-right: 0.5rem}
+        }
+    }
+
+    %singleListItemStyling{
+        margin: 1rem 0 2rem 0;
+        display: grid;
+        grid-template-columns: auto;
+        align-items: start;
+
+    
+     
+        .singleButtonsContainer{
+            justify-self: start;
+            display: flex;
             button{
-                margin-right: 1rem;
+                margin-left: 0; 
+                margin-right: 0.5rem;
             }
         }
     }
 
+   
 }
 

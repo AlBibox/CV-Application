@@ -9,9 +9,9 @@ class GeneralInfo extends Component {
             firstName: "Name",
             surname: "Surname",
             jobTitle: "My specialization",
-            phone: "333 9406438",
-            email: "mail@gmail.com",
-            position: "myPosition",
+            phone: "+00 000 0000000",
+            email: "yourMail@mailProvider.com",
+            position: "27 Colmore Row, Birmingham, England",
 
             firstNameOld: "",
             surnameOld: "",
@@ -48,8 +48,6 @@ class GeneralInfo extends Component {
     }
 
     handleSubmit() {
-        if(!this.state.firstName || !this.state.surname) return false;
-
         this.setState({
             firstNameOld: this.state.firstName,
             surnameOld: this.state.surname,
@@ -87,6 +85,7 @@ class GeneralInfo extends Component {
 
     render() {
         const { firstName, surname, jobTitle, phone, email, position, editMode } = this.state;
+        let validator = (!firstName || !surname || !jobTitle ) ? true : false;
 
         if (!editMode) {
             return (
@@ -99,7 +98,7 @@ class GeneralInfo extends Component {
                     
                     <div className="outputWrapper">
                         <h5>{phone}</h5>
-                        <h5>{email}</h5>
+                        <h5><a href={`mailto:${email}`}>{email}</a></h5>
                         <h5>{position}</h5>
                     </div>
                     <div className="buttonContainer">
@@ -183,7 +182,7 @@ class GeneralInfo extends Component {
                     
                                       
                     <div className="buttonContainer">
-                        <button onClick={this.handleSubmit}>SUBMIT</button>
+                        <button onClick={this.handleSubmit} disabled={validator}>SUBMIT</button>
                         <button onClick={this.handleUndo}>UNDO</button>
                     </div>
                 </div>

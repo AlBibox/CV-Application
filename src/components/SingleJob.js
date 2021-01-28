@@ -125,16 +125,16 @@ class SingleJob extends Component {
 
         if (!editMode) {
             return (
-                <div className="singleEducation">
-                    <h4>Company name: {companyName}</h4>
-                    <h4>Position: {position}</h4>
-                    <div>
-                        <h4>From: {initialDate}</h4>
-                        <h4>Till: {!endingDateNotYetFinished ? endingDate : "In progress"}</h4>
+                <div className="singleJob">
+                    <div className="dataContainer">
+                        <h4 className="date">{initialDate} / {!endingDateNotYetFinished ? endingDate : "In progress"}</h4>
+                        <h4><b>{position}</b></h4>
+                        <h4><b>{companyName}</b></h4>
+                        {mainTasks && <h4 className="otherData">TASKS: <b>{mainTasks}</b></h4>}
+                        <h4 className="otherData">{description}</h4>
                     </div>
-                    <h4>Main tasks: {mainTasks}</h4>
-                    <h4>Description: {description}</h4>
-                    <div className="buttons">
+                                      
+                    <div className="singleButtonsContainer">
                         <button onClick={this.toggleEditMode}>EDIT</button>
                         <button onClick={() => this.props.removeEl(this)}>DELETE</button>
                     </div>
@@ -143,77 +143,98 @@ class SingleJob extends Component {
         } else {
             return (
                 <div className="singleJobEditable">
-                    <div>
-                        <label>Company name:</label>
-                        <input
-                            placeholder="* Enter the company name"
-                            type="text"
-                            name="companyName"
-                            value={companyName}
-                            onChange={this.handleChange}
-                        />
+                    <div className="doubleFieldContainer">
+                        <div className="fieldWrapper">
+                            <label>Company name</label>
+                            <input
+                                placeholder="* Enter the company name"
+                                type="text"
+                                name="companyName"
+                                value={companyName}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                        <div className="fieldWrapper">
+                            <label>Job position</label>
+                            <input
+                                placeholder="* Enter your job position"
+                                type="text"
+                                name="position"
+                                value={position}
+                                onChange={this.handleChange}
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <label>Job position:</label>
-                        <input
-                            placeholder="* Enter your job position"
-                            type="text"
-                            name="position"
-                            value={position}
-                            onChange={this.handleChange}
-                        />
+
+                    <div className="singleFieldContainer">
+                        <div className="fieldWrapper">
+                            <label>Starting date</label>
+                            <input
+                                placeholder="* Enter when you started this job"
+                                type="date"
+                                name="initialDate"
+                                value={initialDate}
+                                onChange={this.handleChange}
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <label>From:</label>
-                        <input
-                            placeholder="* Enter when you started this job"
-                            type="date"
-                            name="initialDate"
-                            value={initialDate}
-                            onChange={this.handleChange}
-                        />
-                        <label>Till:</label>
-                        <input
-                            placeholder="* Enter when you finished this job"
-                            type="date"
-                            name="endingDate"
-                            disabled={endingDateNotYetFinished}
-                            value={endingDate}
-                            onChange={this.handleChange}
-                        />
-                        <label>Not yet finished</label>
-                        <input
-                            type="checkbox"
-                            checked={endingDateNotYetFinished}
-                            onChange={this.handleCheckbox}
-                        />
+                    
+                    <div className="doubleFieldContainer">
+                        <div className="fieldWrapper">
+                            <label>Ending date</label>
+                            <input
+                                placeholder="* Enter when you finished this job"
+                                type="date"
+                                name="endingDate"
+                                disabled={endingDateNotYetFinished}
+                                value={endingDate}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                        <div className="fieldWrapperCheckbox">
+                            <label>In progress</label>
+                            <input
+                                type="checkbox"
+                                checked={endingDateNotYetFinished}
+                                onChange={this.handleCheckbox}
+                            />
+                        </div>                       
                     </div>
-                    <div>
-                        <label>Main tasks:</label>
-                        <textarea
-                            placeholder="* Enter your main tasks"
-                            name="mainTask"
-                            value={mainTasks}
-                            onChange={this.handleChange}
-                        />
+
+                    <div className="singleFieldContainer">
+                        <div className="fieldWrapper">
+                            <label>Main tasks</label>
+                            <textarea
+                                placeholder="* Enter your main tasks"
+                                name="mainTasks"
+                                rows="3"
+                                value={mainTasks}
+                                onChange={this.handleChange}
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <label>Description:</label>
-                        <textarea
-                            placeholder="* Describe your experience"
-                            name="description"
-                            value={description}
-                            onChange={this.handleChange}
-                        />
+                    
+                    <div className="singleFieldContainer">
+                        <div className="fieldWrapper">
+                            <label>Description</label>
+                            <textarea
+                                placeholder="* Describe your experience"
+                                name="description"
+                                rows="4"
+                                value={description}
+                                onChange={this.handleChange}
+                            />
+                        </div>
                     </div>
+                    
                     {isNew //CONDITION FOR THE RENDER OF THE BUTTONS (different for new added and old element)
                         ?
-                        <div>
+                        <div className="buttonContainer">
                             <button onClick={this.handleSubmitforNewElement} disabled={validator}>SUBMIT</button>
-                            <button onClick={() => this.props.removeEl(this)}>UNDO2</button>
+                            <button onClick={() => this.props.removeEl(this)}>UNDO</button>
                         </div>
                         :
-                        <div>
+                        <div className="buttonContainer">
                             <button onClick={this.handleSubmit} disabled={validator}>SUBMIT</button>
                             <button onClick={this.handleUndo}>UNDO</button>
                         </div>

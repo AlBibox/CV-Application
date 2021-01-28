@@ -122,16 +122,16 @@ class SingleEducation extends Component {
             return (
                 <div className="singleEducation">
                     <div className="dataContainer">
-                        <h4 className="date">{initialDate}  /  {!endingDateNotYetFinished ? endingDate : "In progress"}</h4>
-                        <h4><b>{studyTitle}</b></h4>
-                        <h4><b>{schoolName}</b></h4>
-                        <h4 className="otherData">{description}</h4>
+                        <h4 className="date">{initialDate} / {!endingDateNotYetFinished ? endingDate : "In progress"}</h4>
+                            <h4><b>{studyTitle}</b></h4>  
+                            <h4><b>{schoolName}</b></h4>
+                            <h4 className="otherData">{description}</h4>                                           
                     </div>
                            
                     <div className="singleButtonsContainer">
                         <button onClick={this.toggleEditMode}>EDIT</button>
                         <button onClick={() => this.props.removeEl(this)}>DELETE</button>
-                    </div>   
+                    </div> 
                 </div>
             )
         } else {
@@ -161,8 +161,6 @@ class SingleEducation extends Component {
                         </div>
                     </div>
 
-                    
-
                     <div className="singleFieldContainer">
                         <div className="fieldWrapper">
                             <label>Starting date</label>
@@ -173,12 +171,10 @@ class SingleEducation extends Component {
                                 value={initialDate}
                                 onChange={this.handleChange}
                             />
-                        </div>
-                        
-                        
+                        </div>    
                     </div>
-                    <div className="doubleFieldContainer">
-                        
+
+                    <div className="doubleFieldContainer">                     
                         <div className="fieldWrapper">
                             <label>Ending date</label>
                             <input
@@ -196,14 +192,13 @@ class SingleEducation extends Component {
                                 type="checkbox"
                                 checked={endingDateNotYetFinished}
                                 onChange={this.handleCheckbox}
-                            />
-                            
+                            />                           
                         </div>
                     </div>
 
                     <div className="singleFieldContainer">
                         <div className="fieldWrapper">
-                            <label>Description:</label>
+                            <label>Description</label>
                             <textarea
                                 placeholder="* Describe your experience"
                                 name="description"

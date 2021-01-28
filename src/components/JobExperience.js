@@ -49,8 +49,8 @@ class JobExperience extends Component {
 
     render() {
         return (
-            <div className="jobExperience" >
-                <h2>JOB EXPERIENCE</h2>
+            <div className="jobsBox" >
+                <h2>JOBS LIST</h2>
                 {this.state.jobsList
                     .map(item =>
                         <SingleJob
@@ -59,7 +59,11 @@ class JobExperience extends Component {
                             removeEl={this.removeElement}
                         />
                     )}
-                {!this.state.addingMode && <button onClick={this.addNewElement}>ADD NEW JOB</button>}
+                {!this.state.addingMode &&
+                    <div className="generalButtonContainer">
+                        <button onClick={this.addNewElement}>ADD NEW JOB</button>
+                    </div> 
+                }
 
             </div>
         )

@@ -22,12 +22,13 @@ class Education extends Component {
             addingMode: !this.state.addingMode,
         })
     }
+    
 
     addNewElement() {
         this.toggleAddingMode();
         this.setState({   
             educationList: this.state.educationList.concat(<SingleEducation key={uniqid()} />)
-        }, () => console.log(this.state.educationList))
+        })
     }
 
     removeElement(e) {
