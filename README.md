@@ -8,8 +8,6 @@ Build a small CV application application
 
 ## Built with
 - React
-- HTML
 - SCSS
 - JS
 - JSX
-- Webpack
