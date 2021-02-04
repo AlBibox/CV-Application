@@ -1,73 +1,52 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import SingleEducation from './SingleEducation';
 import uniqid from "uniqid";
 
-class Education extends Component {
-    constructor(props) {
-        super(props)
+const Education = () => {
+    const [addingMode, setAddingMode] = useState(false);
+    const [educationList, setEducationList] = useState([]);
+       
     
-        this.state = {
-             educationList: [],
-             addingMode: false
-        }
+    const toggleAddingMode = () => {
+        setAddingMode(!addingMode);
+    };
 
-        this.addNewElement = this.addNewElement.bind(this);
-        this.toggleAddingMode = this.toggleAddingMode.bind(this);
-        this.removeElement = this.removeElement.bind(this);
+
+    const addNewElement = () => {
+        toggleAddingMode();
+        setEducationList([...educationList, { key: uniqid() }]);       
+    };
+
+
+    const removeElement = (e) => {
+        setEducationList(educationList.filter(item => item.key !== e.id));
         
-    }
-
-    toggleAddingMode() {
-        this.setState({
-            addingMode: !this.state.addingMode,
-        })
-    }
-    
-
-    addNewElement() {
-        this.toggleAddingMode();
-        this.setState({   
-            educationList: this.state.educationList.concat(<SingleEducation key={uniqid()} />)
-        })
-    }
-
-    removeElement(e) {
-        this.setState({
-            educationList: this.state.educationList
-                .filter(item => e._reactInternals.key !== item.key)
-        })
-
-        if(this.state.addingMode){
-            this.setState({addingMode: false})
+        if (addingMode) {
+            setAddingMode(false)
         }
-    }
+    };
 
 
-    
+    return (
+        <div className="educationBox" >
+            <h2>EDUCATION LIST</h2>
+            {educationList
+                .map(item => 
+                    <SingleEducation
+                        key={item.key}
+                        id={item.key}
+                        addingMode={() => toggleAddingMode()}
+                        remove={(e) => removeElement(e)}     
+                    />                       
+                )
+            }
 
-    
-    
-    render() {
-        return (
-            <div className = "educationBox" >
-                <h2>EDUCATION LIST</h2>
-                {this.state.educationList
-                    .map(item => 
-                        <SingleEducation
-                            key={item.key}
-                            addingMode={this.toggleAddingMode}
-                            removeEl={this.removeElement}
-                        />                    
-                )}
-                {!this.state.addingMode && 
-                    <div className="generalButtonContainer">
-                        <button onClick={this.addNewElement}>ADD NEW EDUCATION</button>
-                    </div>
-                }
-                 
-            </div>
-        )
-    }
+            {!addingMode &&
+                <div className="generalButtonContainer">
+                    <button onClick={() => addNewElement()}>ADD NEW EDUCATION</button>
+                </div>
+            }
+        </div>
+    )  
 }
-
 export default Education

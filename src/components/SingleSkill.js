@@ -1,80 +1,61 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 
-class SingleSkill extends Component {
-    constructor(props) {
-        super(props)
+const SingleSkill = (props) => {
+    const [editMode, setEditMode] = useState(false);
+    const [skillName, setSkillName] = useState("");
 
-        this.state = {
-            editMode: false,
-            skillName: "",        
-        }
 
-        this.handleChange = this.handleChange.bind(this);    
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    useEffect(() => {
+        setEditMode(true);
+    }, []);
 
-    componentDidMount() {
-        this.setState({
-            isNew: true,
-            editMode: true,        
-        })
-    }
 
-    toggleEditMode() {
-        this.setState({
-            editMode: !this.state.editMode,
-        })
+    const toggleEditMode = () => {
+        setEditMode(!editMode)
+    };
+
+        
+    const handleSubmit = () => {
+        toggleEditMode();
+        props.addingMode();
     }
 
 
-    handleSubmit() {
-        this.setState({isNew: false})
-        this.toggleEditMode();
-        this.props.addingMode();
-    }
-
-
-    handleChange(e) {
+    const handleChange = (e) => {
         const value = e.target.value;
-        const name = e.target.name;
-
-        this.setState({[name]: value,})
+        setSkillName(value)
     }
 
  
-    render() {
-        const { skillName, editMode } = this.state;
-        let validator = (!skillName) ? true : false;
+    let validator = (!skillName) ? true : false;
 
-        if (!editMode) {
-            return (
-                <div className="singleSkill">
-                    <h4 className="data">{skillName}</h4>
-                    <div className="deleteButton">
-                        <button onClick={() => this.props.removeEl(this)}>X</button>
-                    </div>
+    if (!editMode) {
+        return (
+            <div className="singleSkill">
+                <h4 className="data">{skillName}</h4>
+                <div className="deleteButton">
+                    <button onClick={() => props.remove(props)}>X</button>
                 </div>
-            )
-        } else {
-            return (
-                <div className="singleSkillEditable">
-                    <div className="fieldWrapper">
-                        <input
-                            placeholder="* Enter the skill name"
-                            type="text"
-                            name="skillName"
-                            value={skillName}
-                            onChange={this.handleChange}
-                        />
-                    </div>                  
-                    <div className="singleButtonsContainer">
-                        <button onClick={this.handleSubmit} disabled={validator}>SUBMIT</button>
-                        <button onClick={() => this.props.removeEl(this)}>UNDO</button>
-                    </div>
+            </div>
+        )
+    } else {
+        return (
+            <div className="singleSkillEditable">
+                <div className="fieldWrapper">
+                    <input
+                        placeholder="* Enter the skill name"
+                        type="text"
+                        name="skillName"
+                        value={skillName}
+                        onChange={(event) => handleChange(event)}
+                    />
+                </div>                  
+                <div className="singleButtonsContainer">
+                    <button onClick={() => handleSubmit()} disabled={validator}>SUBMIT</button>
+                    <button onClick={() => props.remove(props)}>UNDO</button>
                 </div>
-            )
-        }
-    }
+            </div>
+        )
+    }  
 }
-
 export default SingleSkill

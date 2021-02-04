@@ -1,231 +1,222 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 
-class SingleEducation extends Component {
-    constructor(props) {
-        super(props)
+const SingleEducation = (props) => {
+    const [editMode, setEditMode] = useState(false);
+    const [isNew, setIsNew] = useState(true);
+
+    const [educationInfo, setEducationInfo] = useState({
+        studyTitle: "",
+        schoolName: "",
+        initialDate: "",
+        endingDate: "",
+        endingDateNotYetFinished: false,
+        description: "",
+    });
+
+    const [educationInfoOld, setEducationInfoOld] = useState({
+        studyTitleOld: "",
+        schoolNameOld: "",
+        initialDateOld: "",
+        endingDateOld: "",
+        endingDateNotYetFinishedOld: "",
+        descriptionOld: "",
+    });
     
-        this.state = {
-            editMode: false,
-            studyTitle: "",
-            schoolName: "",
-            initialDate: "",
-            endingDate: "",
-            endingDateNotYetFinished: false,
-            description: "",
+     
+    useEffect(() => {
+        setIsNew(true);
+        setEditMode(true);
+        setEducationInfoOld({
+            studyTitleOld: educationInfo.studyTitle,
+            schoolNameOld: educationInfo.schoolName,
+            initialDateOld: educationInfo.initialDate,
+            endingDateOld: educationInfo.endingDate,
+            endingDateNotYetFinishedOld: educationInfo.endingDateNotYetFinished,
+            descriptionOld: educationInfo.description,
+        });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-            studyTitleOld: "",
-            schoolNameOld: "",
-            initialDateOld: "",
-            endingDateOld: "",
-            endingDateNotYetFinishedOld: "",
-            descriptionOld: "",
-            
-        }
+   
 
-        this.handleChange = this.handleChange.bind(this);
-        this.toggleEditMode = this.toggleEditMode.bind(this);
-        this.handleUndo = this.handleUndo.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleSubmitforNewElement = this.handleSubmitforNewElement.bind(this);
-        this.handleCheckbox = this.handleCheckbox.bind(this);
-    }
-
-    componentDidMount() {
-        this.setState({
-            isNew: true,
-            editMode: true,
-            studyTitleOld: this.state.studyTitle,
-            schoolNameOld: this.state.schoolName,
-            initialDateOld: this.state.initialDate,
-            endingDateOld: this.state.endingDate,
-            endingDateNotYetFinishedOld: this.state.endingDateNotYetFinished,
-            descriptionOld: this.state.description,
-        })
-    }
-
-    toggleEditMode() {
-        this.setState({
-            editMode: !this.state.editMode,
-        })  
-    }
+    const toggleEditMode = () => {
+        setEditMode(!editMode)  
+    };
 
 
     //METHOD FOR SUBMITTING OLD ELEMENTS
-    handleSubmit(){
-        const { studyTitle, schoolName, initialDate, endingDate, endingDateNotYetFinished, description } = this.state;
-        
-        this.setState({
-            studyTitleOld: studyTitle,
-            schoolNameOld: schoolName,
-            initialDateOld: initialDate,
-            endingDateOld: endingDate,
-            endingDateNotYetFinishedOld: endingDateNotYetFinished,
-            descriptionOld: description,
+    const handleSubmit = () => {
+        setEducationInfoOld({
+            studyTitleOld: educationInfo.studyTitle,
+            schoolNameOld: educationInfo.schoolName,
+            initialDateOld: educationInfo.initialDate,
+            endingDateOld: educationInfo.endingDate,
+            endingDateNotYetFinishedOld: educationInfo.endingDateNotYetFinished,
+            descriptionOld: educationInfo.description,
         })
-        this.toggleEditMode();        
+        toggleEditMode();        
     }
 
 
     //METHOD FOR SUBMITTING NEW ELEMENT
-    handleSubmitforNewElement(){
-        const {studyTitle, schoolName, initialDate, endingDate, endingDateNotYetFinished, description} = this.state;
+    const handleSubmitforNewElement = () => {        
+        setIsNew(false);
+
+        setEducationInfoOld({
+            studyTitleOld: educationInfo.studyTitle,
+            schoolNameOld: educationInfo.schoolName,
+            initialDateOld: educationInfo.initialDate,
+            endingDateOld: educationInfo.endingDate,
+            endingDateNotYetFinishedOld: educationInfo.endingDateNotYetFinished,
+            descriptionOld: educationInfo.description,
+        });
         
-        this.setState({
-            isNew: false,
-            studyTitleOld: studyTitle,
-            schoolNameOld: schoolName,
-            initialDateOld: initialDate,
-            endingDateOld: endingDate,
-            endingDateNotYetFinishedOld: endingDateNotYetFinished,
-            descriptionOld: description,
-        })
-        this.toggleEditMode();
-        this.props.addingMode();
+        toggleEditMode();
+        props.addingMode();
     }
 
 
-    handleChange(e) {
+    const handleChange = (e) => {
         const value = e.target.value;
         const name = e.target.name;
 
-        this.setState({
+        setEducationInfo({
+            ...educationInfo,
             [name]: value,
         })
     }
 
-    handleCheckbox(e) {
-        this.setState({
+
+    const handleCheckbox = (e) => {
+        setEducationInfo({
+            ...educationInfo,
             endingDateNotYetFinished: e.target.checked,
         })
     }
 
 
-    handleUndo() {
-        this.setState({
-            studyTitle: this.state.studyTitleOld,
-            schoolName: this.state.schoolNameOld,
-            initialDate: this.state.initialDateOld,
-            endingDate: this.state.endingDateOld,
-            endingDateNotYetFinished: this.state.endingDateNotYetFinishedOld,
-            description: this.state.descriptionOld,
+    const handleUndo = () => {
+        setEducationInfo({
+            studyTitle: educationInfoOld.studyTitleOld,
+            schoolName: educationInfoOld.schoolNameOld,
+            initialDate: educationInfoOld.initialDateOld,
+            endingDate: educationInfoOld.endingDateOld,
+            endingDateNotYetFinished: educationInfoOld.endingDateNotYetFinishedOld,
+            description: educationInfoOld.descriptionOld,
         });
-        this.toggleEditMode(); 
+        toggleEditMode(); 
     }
 
    
-    
-    render() {
-        const { studyTitle, schoolName, initialDate, endingDate, endingDateNotYetFinished, description, editMode, isNew } = this.state;
-        let validator = (!studyTitle || !schoolName || !initialDate || (!endingDate && !endingDateNotYetFinished)) ? true : false;
+    const { studyTitle, schoolName, initialDate, endingDate, endingDateNotYetFinished, description} = educationInfo;
+    let validator = (!studyTitle || !schoolName || !initialDate || (!endingDate && !endingDateNotYetFinished)) ? true : false;
 
-        if(!editMode){
-            return (
-                <div className="singleEducation">
-                    <div className="dataContainer">
-                        <h4 className="date">{initialDate} / {!endingDateNotYetFinished ? endingDate : "In progress"}</h4>
-                            <h4><b>{studyTitle}</b></h4>  
-                            <h4><b>{schoolName}</b></h4>
-                            <h4 className="otherData">{description}</h4>                                           
-                    </div>
-                           
-                    <div className="singleButtonsContainer">
-                        <button onClick={this.toggleEditMode}>EDIT</button>
-                        <button onClick={() => this.props.removeEl(this)}>DELETE</button>
-                    </div> 
+    if(!editMode){
+        return (
+            <div className="singleEducation">
+                <div className="dataContainer">
+                    <h4 className="date">{initialDate} / {!endingDateNotYetFinished ? endingDate : "In progress"}</h4>
+                        <h4><b>{studyTitle}</b></h4>  
+                        <h4><b>{schoolName}</b></h4>
+                        <h4 className="otherData">{description}</h4>                                           
                 </div>
-            )
-        } else {
-            return (
-                <div className="singleEducationEditable">
+                        
+                <div className="singleButtonsContainer">
+                    <button onClick={() => toggleEditMode()}>EDIT</button>
+                    <button onClick={() => props.remove(props)}>DELETE</button>
+                </div> 
+            </div>
+        )
+    } else {
+        return (
+            <div className="singleEducationEditable">
 
-                    <div className="doubleFieldContainer">
-                        <div className="fieldWrapper">
-                            <label>Title of study</label>
-                            <input
-                                placeholder="* Enter the title of study"
-                                type="text"
-                                name="studyTitle"
-                                value={studyTitle}
-                                onChange={this.handleChange}
-                            />
-                        </div>
-                        <div className="fieldWrapper">
-                            <label>School name</label>
-                            <input
-                                placeholder="* Enter the school name"
-                                type="text"
-                                name="schoolName"
-                                value={schoolName}
-                                onChange={this.handleChange}
-                            />
-                        </div>
+                <div className="doubleFieldContainer">
+                    <div className="fieldWrapper">
+                        <label>Title of study</label>
+                        <input
+                            placeholder="* Enter the title of study"
+                            type="text"
+                            name="studyTitle"
+                            value={studyTitle}
+                            onChange={(event) => handleChange(event)}
+                        />
                     </div>
-
-                    <div className="singleFieldContainer">
-                        <div className="fieldWrapper">
-                            <label>Starting date</label>
-                            <input
-                                placeholder="* Enter when you started this study"
-                                type="date"
-                                name="initialDate"
-                                value={initialDate}
-                                onChange={this.handleChange}
-                            />
-                        </div>    
+                    <div className="fieldWrapper">
+                        <label>School name</label>
+                        <input
+                            placeholder="* Enter the school name"
+                            type="text"
+                            name="schoolName"
+                            value={schoolName}
+                            onChange={(event) => handleChange(event)}
+                        />
                     </div>
-
-                    <div className="doubleFieldContainer">                     
-                        <div className="fieldWrapper">
-                            <label>Ending date</label>
-                            <input
-                                placeholder="* Enter when you finished this study"
-                                type="date"
-                                name="endingDate"
-                                disabled={endingDateNotYetFinished}
-                                value={endingDate}
-                                onChange={this.handleChange}
-                            />
-                        </div>
-                        <div className="fieldWrapperCheckbox">
-                            <label>In progress</label>
-                            <input
-                                type="checkbox"
-                                checked={endingDateNotYetFinished}
-                                onChange={this.handleCheckbox}
-                            />                           
-                        </div>
-                    </div>
-
-                    <div className="singleFieldContainer">
-                        <div className="fieldWrapper">
-                            <label>Description</label>
-                            <textarea
-                                placeholder="* Describe your experience"
-                                name="description"
-                                rows="4"
-                                value={description}
-                                onChange={this.handleChange}
-                            />
-                        </div>
-                    </div>
-                       
-                    {isNew //CONDITION FOR THE RENDER OF THE BUTTONS (different for new added and old element)
-                        ?  
-                            <div className="buttonContainer">
-                                <button onClick={this.handleSubmitforNewElement} disabled={validator}>SUBMIT</button>                                   
-                                <button onClick={() => this.props.removeEl(this)}>UNDO</button>
-                            </div> 
-                        :
-                            <div className="buttonContainer">
-                                <button onClick={this.handleSubmit} disabled={validator}>SUBMIT</button>
-                                <button onClick={this.handleUndo}>UNDO</button>
-                            </div>  
-                    }                              
                 </div>
-            )
-        }  
-    }
+
+                <div className="singleFieldContainer">
+                    <div className="fieldWrapper">
+                        <label>Starting date</label>
+                        <input
+                            placeholder="* Enter when you started this study"
+                            type="date"
+                            name="initialDate"
+                            value={initialDate}
+                            onChange={(event) => handleChange(event)}
+                        />
+                    </div>    
+                </div>
+
+                <div className="doubleFieldContainer">                     
+                    <div className="fieldWrapper">
+                        <label>Ending date</label>
+                        <input
+                            placeholder="* Enter when you finished this study"
+                            type="date"
+                            name="endingDate"
+                            disabled={endingDateNotYetFinished}
+                            value={endingDate}
+                            onChange={(event) => handleChange(event)}
+                        />
+                    </div>
+                    <div className="fieldWrapperCheckbox">
+                        <label>In progress</label>
+                        <input
+                            type="checkbox"
+                            checked={endingDateNotYetFinished}
+                            onChange={(event) => handleCheckbox(event)}
+                        />                           
+                    </div>
+                </div>
+
+                <div className="singleFieldContainer">
+                    <div className="fieldWrapper">
+                        <label>Description</label>
+                        <textarea
+                            placeholder="* Describe your experience"
+                            name="description"
+                            rows="4"
+                            value={description}
+                            onChange={(event) => handleChange(event)}
+                        />
+                    </div>
+                </div>
+                    
+                {isNew //CONDITION FOR THE RENDER OF THE BUTTONS (different for new added and old element)
+                    ?  
+                        <div className="buttonContainer">
+                            <button onClick={() => handleSubmitforNewElement()} disabled={validator}>SUBMIT</button>                                   
+                            <button onClick={() => props.remove(props)}>UNDO</button>
+                        </div> 
+                    :
+                        <div className="buttonContainer">
+                            <button onClick={() => handleSubmit()} disabled={validator}>SUBMIT</button>
+                            <button onClick={() => handleUndo()}>UNDO</button>
+                        </div>  
+                }                              
+            </div>
+        )
+    }  
 }
-
 export default SingleEducation
 
